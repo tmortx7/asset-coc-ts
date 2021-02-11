@@ -1,0 +1,46 @@
+npx next telemetry disable
+# to re-enable, turn "disable" into "enable"
+
+npx next telemetry status
+**************
+Background color: #FFFFFF
+Text color: #333333
+
+CSS class name: coc-white
+
+Text colour contrast: Pass (AAA)
+Large text colour contrast: Pass (AAA)
+*****************************
+Background color: #333333
+Text color: #f6f6f6
+
+CSS class name: coc-secondary-2D
+
+Text colour contrast: Pass (AAA)
+Large text colour contrast: Pass (AAA)
+************************************
+Background color: #C8102E
+Text color: #FFFFFF
+
+CSS class name: coc-main
+
+Text colour contrast: Pass (AA)
+Large text colour contrast: Pass (AAA)
+**********************************
+Background color: #4b4f55
+Text color: #f6f6f6
+
+CSS class name: coc-secondary
+
+Text colour contrast: Pass (AAA)
+Large text colour contrast: Pass (AAA)
+**************************************
+Background color: #000000
+Text color: #f6f6f6
+
+CSS class name: coc-black
+
+Text colour contrast: Pass (AAAA)
+Large text colour contrast: Pass (AAA)
+*****************************************
+
