@@ -1,10 +1,10 @@
 import Layout from '../components/layout';
 import { GridItem } from '@chakra-ui/react';
-import Register from '../components/register';
+import CreateDepartment from '../components/createdepartment';
 
 const IndexPage = () => (
   <Layout>
-    <GridItem colStart={5} colSpan = {4} rowStart={2}><Register /></GridItem>
+    <GridItem colStart={5} colSpan = {4} rowStart={2}><CreateDepartment /></GridItem>
   </Layout>
 );
 

@@ -1,28 +1,23 @@
+import argon2 from "argon2";
 import {
-  Resolver,
-  Mutation,
   Arg,
-  Field,
   Ctx,
+  Field,
+  FieldResolver,
+  Mutation,
   ObjectType,
   Query,
+  Resolver,
+  Root,
 } from "type-graphql";
-import { MyContext } from "../types";
-import { User } from "../entities/User";
-import argon2 from "argon2";
-import { COOKIE_NAME, FORGET_PASSWORD_PREFIX } from "../constants";
-import { UsernamePasswordInput } from "./UsernamePasswordInput";
-import { validateRegister } from "../utils/validateRegister";
-import { v4 } from "uuid";
 import { getConnection } from "typeorm";
-
-@ObjectType()
-class FieldError {
-  @Field()
-  field: string;
-  @Field()
-  message: string;
-}
+import { v4 } from "uuid";
+import { COOKIE_NAME, FORGET_PASSWORD_PREFIX } from "../../constants";
+import { User } from "../../entities/User";
+import { MyContext } from "../../types/Context";
+import { validateRegister } from "../../utils/validateRegister";
+import { UsernamePasswordInput } from "./UsernamePasswordInput";
+import { FieldError} from '../shared/FieldError';
 
 @ObjectType()
 class UserResponse {
@@ -33,8 +28,23 @@ class UserResponse {
   user?: User;
 }
 
-@Resolver()
+@Resolver(User)
 export class UserResolver {
+  @FieldResolver(() => String)
+  email(@Root() user: User, @Ctx() { req }: MyContext) {
+    // this is the current user and its ok to show them their own email
+    if (req.session.userId === user.id) {
+      return user.email;
+    }
+    // current user wants to see someone elses email
+    return "";
+  }
+
+  @Query(() => [User])
+  async allUsers() {
+    return User.find();
+  }
+
   @Mutation(() => UserResponse)
   async changePassword(
     @Arg("token") token: string,
@@ -113,8 +123,6 @@ export class UserResolver {
       "ex",
       1000 * 60 * 60 * 24 * 3
     ); // 3 days
-
-   
 
     return true;
   }

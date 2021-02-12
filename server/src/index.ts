@@ -1,36 +1,29 @@
-import "reflect-metadata";
-import { __prod__, COOKIE_NAME } from "./constants";
-import express from "express";
 import { ApolloServer } from "apollo-server-express";
-import { buildSchema } from "type-graphql";
-import { HelloResolver } from "./resolvers/hello";
-import { PostResolver } from "./resolvers/post";
-import { UserResolver } from "./resolvers/user";
-import Redis from "ioredis";
-import session from "express-session";
 import connectRedis from "connect-redis";
 import cors from "cors";
-import { createConnection } from "typeorm";
-import { Post } from "./entities/Post";
-import { User } from "./entities/User";
 import "dotenv-safe/config";
+import express from "express";
+import session from "express-session";
+import Redis from "ioredis";
+import "reflect-metadata";
+import { buildSchema } from "type-graphql";
+import { Container } from "typedi";
+import * as TypeORM from "typeorm";
+import { COOKIE_NAME, __prod__ } from "./constants";
+import { createTypeormConn } from "./createTypeormConn";
+import { ApolloServerLoaderPlugin } from "type-graphql-dataloader";
+import { getConnection } from "typeorm";
 
-const main = async () => {
-  await createConnection({
-    type: "postgres",
-    database: process.env.DATABASE_NAME,
-    username: process.env.DATABASE_USERNAME,
-    password: process.env.DATABAE_USER_PASSWORD,
-    logging: true,
-    synchronize: true,
-    entities: [Post, User],
-  });
+TypeORM.useContainer(Container);
+
+const main = async (): Promise<void> => {
+  await createTypeormConn();
 
   const app = express();
-// @ts-ignore
+  // @ts-ignore
   const RedisStore = connectRedis(session);
   const redis = new Redis({
-    host: process.env.REDIS_HOST
+    host: process.env.REDIS_HOST,
   });
   app.use(
     cors({
@@ -60,10 +53,15 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [HelloResolver, PostResolver, UserResolver],
-      validate: false,
+      resolvers: [__dirname + "/modules/**/resolver.*"],
+      container: Container,
     }),
     context: ({ req, res }) => ({ req, res, redis }),
+     plugins: [
+    ApolloServerLoaderPlugin({
+      typeormGetConnection: getConnection,  // for use with TypeORM
+    }),
+  ],
   });
 
   apolloServer.applyMiddleware({

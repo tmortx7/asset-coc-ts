@@ -10,7 +10,7 @@ export const InputControl: FC<InputControlProps> = (
   props: InputControlProps
 ) => {
   const { name, label, inputProps, ...rest } = props;
-  const [field] = useField(name);
+  const [field, { error }] = useField(name);
 
   return (
     <FormControl name={name} label={label} {...rest}>

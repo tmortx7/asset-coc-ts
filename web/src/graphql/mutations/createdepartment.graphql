@@ -1,0 +1,15 @@
+mutation CREATE_DEPARTMENT($department: String!,$description: String, $note: String){
+  createDepartment(input:{
+    department:$department,
+    note:$note,
+    description:$description,
+  }){
+    department{
+      id
+    },
+    errors{
+      field
+      message
+    }
+  }
+}
