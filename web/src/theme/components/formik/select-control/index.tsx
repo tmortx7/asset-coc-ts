@@ -1,4 +1,4 @@
-import { Select, SelectProps } from '@chakra-ui/react';
+import { Box, Select, SelectProps } from '@chakra-ui/react';
 import { useField } from 'formik';
 import React, { FC, ReactNode } from 'react';
 import { BaseProps } from '../base-props';
@@ -16,11 +16,13 @@ export const SelectControl: FC<SelectControlProps> = (
   const [field] = useField(name);
 
   return (
-    <FormControl name={name} label={label} {...rest}>
-      <Select {...field} id={name} {...selectProps}>
-        {children}
-      </Select>
-    </FormControl>
+    <Box>
+      <FormControl name={name} label={label} {...rest}>
+        <Select size="lg"{...field} id={name} {...selectProps}>
+          {children}
+        </Select>
+      </FormControl>
+    </Box>
   );
 };
 

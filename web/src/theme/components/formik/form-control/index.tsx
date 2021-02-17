@@ -3,12 +3,12 @@ import {
   FormControlProps as ChakraFormControlProps,
   FormErrorMessage,
   FormLabel,
-} from '@chakra-ui/react';
-import { useField } from 'formik';
-import React, { FC } from 'react';
-import { BaseProps } from '../base-props';
+} from "@chakra-ui/react";
+import { useField } from "formik";
+import React, { FC } from "react";
+import { BaseProps } from "../base-props";
 
-export type FormControlProps = Omit<BaseProps, 'label'> &
+export type FormControlProps = Omit<BaseProps, "label"> &
   ChakraFormControlProps & { label?: string };
 
 export const FormControl: FC<FormControlProps> = (props: FormControlProps) => {
@@ -17,7 +17,16 @@ export const FormControl: FC<FormControlProps> = (props: FormControlProps) => {
 
   return (
     <ChakraFormControl isInvalid={!!error && touched} my={my} {...rest}>
-      {label && <FormLabel htmlFor={name}>{label}</FormLabel>}
+      {label && (
+        <FormLabel
+          fontWeight="600"
+          marginBottom="3px "
+          fontSize="16px"
+          htmlFor={name}
+        >
+          {label}
+        </FormLabel>
+      )}
       {children}
       {error && <FormErrorMessage>{error}</FormErrorMessage>}
     </ChakraFormControl>

@@ -55,6 +55,7 @@ const main = async (): Promise<void> => {
     schema: await buildSchema({
       resolvers: [__dirname + "/modules/**/resolver.*"],
       container: Container,
+      validate: false,
     }),
     context: ({ req, res }) => ({ req, res, redis }),
      plugins: [

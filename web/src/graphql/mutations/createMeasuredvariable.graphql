@@ -1,0 +1,27 @@
+mutation CreateMeasuredvariable(
+  $measuredvariable: String!
+  $measuredvariableletter: String!
+  $description: String
+  $note: String
+) {
+  createMeasuredvariable(
+    input: {
+      measuredvariable: $measuredvariable
+      measuredvariableletter: $measuredvariableletter
+      description: $description
+      note: $note
+    }
+  ) {
+    errors {
+      field
+      message
+    }
+    measuredvariable {
+      id
+      measuredvariable
+      measuredvariableletter
+      description
+      note
+    }
+  }
+}

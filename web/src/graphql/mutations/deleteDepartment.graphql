@@ -1,0 +1,3 @@
+mutation DeleteDepartment($id: Int!) {
+  deleteDepartment(id: $id)
+}

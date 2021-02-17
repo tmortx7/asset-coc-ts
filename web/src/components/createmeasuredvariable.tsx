@@ -4,7 +4,7 @@ import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
 import * as React from "react";
 import * as Yup from "yup";
-import { useCreate_DepartmentMutation } from "../generated/graphql";
+import { useCreateMeasuredvariableMutation } from "../generated/graphql";
 import {
   InputControl,
   SubmitButton,
@@ -12,24 +12,30 @@ import {
 } from "../theme/components/formik";
 import { createUrqlClient } from "../utils/createUrqlClient";
 import { toErrorMap } from "../utils/toErrorMap";
-interface registerProps {}
+interface measuredvariableProps {}
 
 const validationSchema = Yup.object({
-  department: Yup.string().required().min(4),
+  measuredvariableletter: Yup.string().required().max(3),
+  measuredvariable: Yup.string().required(),
 });
 
-const CreateDepartmentPage: React.FC<registerProps> = ({}) => {
+const CreateMeasuredVariable: React.FC<measuredvariableProps> = ({}) => {
   const router = useRouter();
-  const [, createDepartment] = useCreate_DepartmentMutation();
+  const [, createMeasuredvariable] = useCreateMeasuredvariableMutation();
   return (
     <div>
       <Formik
-        initialValues={{ department: "", description: "", note: "" }}
+        initialValues={{
+          measuredvariableletter: "",
+          measuredvariable: "",
+          description: "",
+          note: "",
+        }}
         onSubmit={async (values, { setErrors }) => {
-          const response = await createDepartment(values);
-          if (response.data?.createDepartment.errors) {
-            setErrors(toErrorMap(response.data.createDepartment.errors));
-          } else if (response.data?.createDepartment.department) {
+          const response = await createMeasuredvariable(values);
+          if (response.data?.createMeasuredvariable.errors) {
+            setErrors(toErrorMap(response.data.createMeasuredvariable.errors));
+          } else if (response.data?.createMeasuredvariable.measuredvariable) {
             // worked
             router.push("/");
           }
@@ -48,7 +54,8 @@ const CreateDepartmentPage: React.FC<registerProps> = ({}) => {
             as="form"
             onSubmit={handleSubmit as any}
           >
-            <InputControl name="department" label="Department" />
+            <InputControl name="measuredvariable" label="Measured Variable" />
+            <InputControl name="measuredvariableletter" label="Abbr." />
             <InputControl name="description" label="Description" />
             <TextareaControl name="note" label="Note" />
 
@@ -62,4 +69,4 @@ const CreateDepartmentPage: React.FC<registerProps> = ({}) => {
   );
 };
 
-export default withUrqlClient(createUrqlClient)(CreateDepartmentPage);
+export default withUrqlClient(createUrqlClient)(CreateMeasuredVariable);

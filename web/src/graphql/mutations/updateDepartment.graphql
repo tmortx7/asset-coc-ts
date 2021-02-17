@@ -1,0 +1,8 @@
+mutation UpdateDepartment($id: Int!, $department: String!, $description: String!, $note: String!) {
+  updateDepartment(id: $id, department: $department, description: $description, note: $note) {
+    id
+    department
+    description
+    note
+  }
+}

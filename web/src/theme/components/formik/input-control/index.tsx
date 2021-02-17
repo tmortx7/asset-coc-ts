@@ -1,4 +1,4 @@
-import { Input, InputProps } from "@chakra-ui/react";
+import { Box, Input, InputProps } from "@chakra-ui/react";
 import { useField } from "formik";
 import React, { FC } from "react";
 import { BaseProps } from "../base-props";
@@ -10,12 +10,14 @@ export const InputControl: FC<InputControlProps> = (
   props: InputControlProps
 ) => {
   const { name, label, inputProps, ...rest } = props;
-  const [field, { error }] = useField(name);
+  const [field] = useField(name);
 
   return (
-    <FormControl name={name} label={label} {...rest}>
-      <Input {...field} id={name} {...inputProps} />
-    </FormControl>
+    <Box>
+      <FormControl name={name} label={label} {...rest}>
+        <Input size="lg"{...field} id={name} {...inputProps} />
+      </FormControl>
+    </Box>
   );
 };
 

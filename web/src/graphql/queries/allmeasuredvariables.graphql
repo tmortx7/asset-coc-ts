@@ -1,0 +1,11 @@
+query AllMeasuredvariables($limit: Int!, $cursor: String) {
+  allMeasuredvariables(limit: $limit, cursor: $cursor) {
+      id
+      createdDate
+      updatedDate
+      measuredvariable
+      measuredvariableletter
+      description
+      note
+    }
+  }

@@ -1,9 +1,11 @@
 import { Box, ButtonGroup } from "@chakra-ui/react";
 import { Formik } from "formik";
+import { withUrqlClient } from "next-urql";
 import * as React from "react";
 import * as Yup from "yup";
-import { InputControl, SubmitButton } from "../components/formik";
+import { InputControl, SubmitButton } from "../theme/components/formik";
 import { useRegisterMutation } from "../generated/graphql";
+import { createUrqlClient } from "../utils/createUrqlClient";
 
 interface registerProps {}
 
@@ -49,4 +51,4 @@ const RegisterPage: React.FC<registerProps> = ({}) => {
   );
 };
 
-export default RegisterPage;
+export default withUrqlClient(createUrqlClient)(RegisterPage);

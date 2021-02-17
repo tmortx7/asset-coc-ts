@@ -1,0 +1,11 @@
+query Measuredvariable($id: Int!) {
+  measuredvariable(id: $id) {
+    id
+    createdDate
+    updatedDate
+    measuredvariable
+    measuredvariableletter
+    description
+    note
+  }
+}

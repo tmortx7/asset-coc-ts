@@ -1,6 +1,6 @@
-import { Button, ButtonProps } from '@chakra-ui/react';
-import { useFormikContext } from 'formik';
-import React, { FC } from 'react';
+import { Button, ButtonProps } from "@chakra-ui/react";
+import { useFormikContext } from "formik";
+import React, { FC } from "react";
 
 export type SubmitButtonProps = ButtonProps;
 
@@ -14,7 +14,9 @@ export const SubmitButton: FC<SubmitButtonProps> = (
     <Button
       type="submit"
       isLoading={isSubmitting}
-      colorScheme="teal"
+      size="md"
+      border="2px"
+      borderColor="#c8102e"
       mt={mt}
       {...rest}
     >

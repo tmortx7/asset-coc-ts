@@ -19,3 +19,5 @@ export * from './switch-control';
 export * from './textarea-control';
 export * from './slider-control';
 export * from './pin-input-control';
+export * from './input-control-email';
+export * from './input-control-password';

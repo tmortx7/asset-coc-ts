@@ -1,0 +1,10 @@
+query Department($id: Int!) {
+  department(id: $id) {
+    id
+    createdAt
+    updatedAt
+    department
+    description
+    note
+  }
+}

@@ -1,0 +1,13 @@
+query AllDepartments($limit: Int!, $cursor: String) {
+  allDepartments(limit: $limit, cursor: $cursor) {
+    hasMore
+    allDepartments{
+      id
+      createdAt
+      updatedAt
+      department
+      description
+      note
+    }
+  }
+}
