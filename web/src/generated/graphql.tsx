@@ -26,11 +26,24 @@ export type Department = {
   updatedAt: Scalars['String'];
 };
 
+export type InstrumentFunction = {
+  __typename?: 'InstrumentFunction';
+  id: Scalars['Int'];
+  instrumentfunction?: Maybe<Scalars['String']>;
+  instrumentfunctionletter?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  note?: Maybe<Scalars['String']>;
+  uuid: Scalars['String'];
+  createdDate: Scalars['String'];
+  updatedDate: Scalars['String'];
+  version: Scalars['Float'];
+};
+
 export type MeasuredVariable = {
   __typename?: 'MeasuredVariable';
   id: Scalars['Int'];
-  measuredvariable: Scalars['String'];
-  measuredvariableletter: Scalars['String'];
+  measuredvariable?: Maybe<Scalars['String']>;
+  measuredvariableletter?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   note?: Maybe<Scalars['String']>;
   uuid: Scalars['String'];
@@ -66,10 +79,28 @@ export type PaginatedDepartments = {
   hasMore: Scalars['Boolean'];
 };
 
+export type InstrumentFunctionResponse = {
+  __typename?: 'InstrumentFunctionResponse';
+  errors?: Maybe<Array<FieldError>>;
+  instrumentfunction?: Maybe<InstrumentFunction>;
+};
+
+export type PaginatedInstrumentfunction = {
+  __typename?: 'PaginatedInstrumentfunction';
+  allInstrumentfunctions: Array<InstrumentFunction>;
+  hasMore: Scalars['Boolean'];
+};
+
 export type MeasuredVariableResponse = {
   __typename?: 'MeasuredVariableResponse';
   errors?: Maybe<Array<FieldError>>;
   measuredvariable?: Maybe<MeasuredVariable>;
+};
+
+export type PaginatedMeasuredvariable = {
+  __typename?: 'PaginatedMeasuredvariable';
+  allMeasuredvariables: Array<MeasuredVariable>;
+  hasMore: Scalars['Boolean'];
 };
 
 export type UserResponse = {
@@ -80,6 +111,13 @@ export type UserResponse = {
 
 export type DepartmentInput = {
   department: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  note?: Maybe<Scalars['String']>;
+};
+
+export type InstrumentFunctionInput = {
+  instrumentfunction: Scalars['String'];
+  instrumentfunctionletter: Scalars['String'];
   description?: Maybe<Scalars['String']>;
   note?: Maybe<Scalars['String']>;
 };
@@ -101,7 +139,9 @@ export type Query = {
   __typename?: 'Query';
   allDepartments: PaginatedDepartments;
   department?: Maybe<Department>;
-  allMeasuredvariables: Array<MeasuredVariable>;
+  allInstrumentfunctions: PaginatedInstrumentfunction;
+  instrumentfunction?: Maybe<InstrumentFunction>;
+  allMeasuredvariables: PaginatedMeasuredvariable;
   measuredvariable?: Maybe<MeasuredVariable>;
   allUsers: Array<User>;
   me?: Maybe<User>;
@@ -115,6 +155,17 @@ export type QueryAllDepartmentsArgs = {
 
 
 export type QueryDepartmentArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryAllInstrumentfunctionsArgs = {
+  cursor?: Maybe<Scalars['String']>;
+  limit: Scalars['Int'];
+};
+
+
+export type QueryInstrumentfunctionArgs = {
   id: Scalars['Int'];
 };
 
@@ -134,9 +185,12 @@ export type Mutation = {
   createDepartment: DepartmentResponse;
   updateDepartment?: Maybe<Department>;
   deleteDepartment: Scalars['Boolean'];
+  createInstrumentfunction: InstrumentFunctionResponse;
+  updateInstrumentfunction?: Maybe<InstrumentFunction>;
+  deleteInstrumentfunction: Scalars['Boolean'];
   createMeasuredvariable: MeasuredVariableResponse;
   updateMeasuredvariable?: Maybe<MeasuredVariable>;
-  deleteMeasuredVariable: Scalars['Boolean'];
+  deleteMeasuredvariable: Scalars['Boolean'];
   changePassword: UserResponse;
   forgotPassword: Scalars['Boolean'];
   register: UserResponse;
@@ -163,6 +217,25 @@ export type MutationDeleteDepartmentArgs = {
 };
 
 
+export type MutationCreateInstrumentfunctionArgs = {
+  input: InstrumentFunctionInput;
+};
+
+
+export type MutationUpdateInstrumentfunctionArgs = {
+  note: Scalars['String'];
+  description: Scalars['String'];
+  instrumentfunctionletter: Scalars['String'];
+  instrumentfunction: Scalars['String'];
+  id: Scalars['Int'];
+};
+
+
+export type MutationDeleteInstrumentfunctionArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type MutationCreateMeasuredvariableArgs = {
   input: MeasuredVariableInput;
 };
@@ -177,7 +250,7 @@ export type MutationUpdateMeasuredvariableArgs = {
 };
 
 
-export type MutationDeleteMeasuredVariableArgs = {
+export type MutationDeleteMeasuredvariableArgs = {
   id: Scalars['Int'];
 };
 
@@ -222,6 +295,28 @@ export type RegularUserResponseFragment = (
     { __typename?: 'User' }
     & RegularUserFragment
   )> }
+);
+
+export type CreateInstrumentfunctionMutationVariables = Exact<{
+  instrumentfunction: Scalars['String'];
+  instrumentfunctionletter: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  note?: Maybe<Scalars['String']>;
+}>;
+
+
+export type CreateInstrumentfunctionMutation = (
+  { __typename?: 'Mutation' }
+  & { createInstrumentfunction: (
+    { __typename?: 'InstrumentFunctionResponse' }
+    & { errors?: Maybe<Array<(
+      { __typename?: 'FieldError' }
+      & Pick<FieldError, 'field' | 'message'>
+    )>>, instrumentfunction?: Maybe<(
+      { __typename?: 'InstrumentFunction' }
+      & Pick<InstrumentFunction, 'id' | 'instrumentfunction' | 'instrumentfunctionletter' | 'description' | 'note'>
+    )> }
+  ) }
 );
 
 export type CreateMeasuredvariableMutationVariables = Exact<{
@@ -277,6 +372,26 @@ export type DeleteDepartmentMutation = (
   & Pick<Mutation, 'deleteDepartment'>
 );
 
+export type DeleteInstrumentfunctionMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteInstrumentfunctionMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteInstrumentfunction'>
+);
+
+export type DeleteMeasuredvariableMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteMeasuredvariableMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteMeasuredvariable'>
+);
+
 export type RegisterMutationVariables = Exact<{
   username: Scalars['String'];
   email: Scalars['String'];
@@ -314,6 +429,23 @@ export type UpdateDepartmentMutation = (
   )> }
 );
 
+export type UpdateInstrumentFunctionMutationVariables = Exact<{
+  id: Scalars['Int'];
+  instrumentfunction: Scalars['String'];
+  instrumentfunctionletter: Scalars['String'];
+  description: Scalars['String'];
+  note: Scalars['String'];
+}>;
+
+
+export type UpdateInstrumentFunctionMutation = (
+  { __typename?: 'Mutation' }
+  & { updateInstrumentfunction?: Maybe<(
+    { __typename?: 'InstrumentFunction' }
+    & Pick<InstrumentFunction, 'id' | 'instrumentfunction' | 'instrumentfunctionletter' | 'description' | 'note'>
+  )> }
+);
+
 export type UpdateMeasuredVariableMutationVariables = Exact<{
   id: Scalars['Int'];
   measuredvariable: Scalars['String'];
@@ -327,8 +459,26 @@ export type UpdateMeasuredVariableMutation = (
   { __typename?: 'Mutation' }
   & { updateMeasuredvariable?: Maybe<(
     { __typename?: 'MeasuredVariable' }
-    & Pick<MeasuredVariable, 'measuredvariable' | 'measuredvariableletter' | 'description' | 'note'>
+    & Pick<MeasuredVariable, 'id' | 'measuredvariable' | 'measuredvariableletter' | 'description' | 'note'>
   )> }
+);
+
+export type AllInstrumentfunctionsQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  cursor?: Maybe<Scalars['String']>;
+}>;
+
+
+export type AllInstrumentfunctionsQuery = (
+  { __typename?: 'Query' }
+  & { allInstrumentfunctions: (
+    { __typename?: 'PaginatedInstrumentfunction' }
+    & Pick<PaginatedInstrumentfunction, 'hasMore'>
+    & { allInstrumentfunctions: Array<(
+      { __typename?: 'InstrumentFunction' }
+      & Pick<InstrumentFunction, 'id' | 'createdDate' | 'updatedDate' | 'instrumentfunction' | 'instrumentfunctionletter' | 'description' | 'note'>
+    )> }
+  ) }
 );
 
 export type AllMeasuredvariablesQueryVariables = Exact<{
@@ -339,10 +489,14 @@ export type AllMeasuredvariablesQueryVariables = Exact<{
 
 export type AllMeasuredvariablesQuery = (
   { __typename?: 'Query' }
-  & { allMeasuredvariables: Array<(
-    { __typename?: 'MeasuredVariable' }
-    & Pick<MeasuredVariable, 'id' | 'createdDate' | 'updatedDate' | 'measuredvariable' | 'measuredvariableletter' | 'description' | 'note'>
-  )> }
+  & { allMeasuredvariables: (
+    { __typename?: 'PaginatedMeasuredvariable' }
+    & Pick<PaginatedMeasuredvariable, 'hasMore'>
+    & { allMeasuredvariables: Array<(
+      { __typename?: 'MeasuredVariable' }
+      & Pick<MeasuredVariable, 'id' | 'createdDate' | 'updatedDate' | 'measuredvariable' | 'measuredvariableletter' | 'description' | 'note'>
+    )> }
+  ) }
 );
 
 export type DepartmentQueryVariables = Exact<{
@@ -374,6 +528,19 @@ export type AllDepartmentsQuery = (
       & Pick<Department, 'id' | 'createdAt' | 'updatedAt' | 'department' | 'description' | 'note'>
     )> }
   ) }
+);
+
+export type InstrumentfunctionQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type InstrumentfunctionQuery = (
+  { __typename?: 'Query' }
+  & { instrumentfunction?: Maybe<(
+    { __typename?: 'InstrumentFunction' }
+    & Pick<InstrumentFunction, 'id' | 'createdDate' | 'updatedDate' | 'instrumentfunction' | 'instrumentfunctionletter' | 'description' | 'note'>
+  )> }
 );
 
 export type MeasuredvariableQueryVariables = Exact<{
@@ -412,6 +579,29 @@ export const RegularUserResponseFragmentDoc = gql`
 }
     ${RegularErrorFragmentDoc}
 ${RegularUserFragmentDoc}`;
+export const CreateInstrumentfunctionDocument = gql`
+    mutation CreateInstrumentfunction($instrumentfunction: String!, $instrumentfunctionletter: String!, $description: String, $note: String) {
+  createInstrumentfunction(
+    input: {instrumentfunction: $instrumentfunction, instrumentfunctionletter: $instrumentfunctionletter, description: $description, note: $note}
+  ) {
+    errors {
+      field
+      message
+    }
+    instrumentfunction {
+      id
+      instrumentfunction
+      instrumentfunctionletter
+      description
+      note
+    }
+  }
+}
+    `;
+
+export function useCreateInstrumentfunctionMutation() {
+  return Urql.useMutation<CreateInstrumentfunctionMutation, CreateInstrumentfunctionMutationVariables>(CreateInstrumentfunctionDocument);
+};
 export const CreateMeasuredvariableDocument = gql`
     mutation CreateMeasuredvariable($measuredvariable: String!, $measuredvariableletter: String!, $description: String, $note: String) {
   createMeasuredvariable(
@@ -463,6 +653,24 @@ export const DeleteDepartmentDocument = gql`
 export function useDeleteDepartmentMutation() {
   return Urql.useMutation<DeleteDepartmentMutation, DeleteDepartmentMutationVariables>(DeleteDepartmentDocument);
 };
+export const DeleteInstrumentfunctionDocument = gql`
+    mutation DeleteInstrumentfunction($id: Int!) {
+  deleteInstrumentfunction(id: $id)
+}
+    `;
+
+export function useDeleteInstrumentfunctionMutation() {
+  return Urql.useMutation<DeleteInstrumentfunctionMutation, DeleteInstrumentfunctionMutationVariables>(DeleteInstrumentfunctionDocument);
+};
+export const DeleteMeasuredvariableDocument = gql`
+    mutation DeleteMeasuredvariable($id: Int!) {
+  deleteMeasuredvariable(id: $id)
+}
+    `;
+
+export function useDeleteMeasuredvariableMutation() {
+  return Urql.useMutation<DeleteMeasuredvariableMutation, DeleteMeasuredvariableMutationVariables>(DeleteMeasuredvariableDocument);
+};
 export const RegisterDocument = gql`
     mutation Register($username: String!, $email: String!, $password: String!) {
   register(options: {username: $username, email: $email, password: $password}) {
@@ -500,6 +708,27 @@ export const UpdateDepartmentDocument = gql`
 export function useUpdateDepartmentMutation() {
   return Urql.useMutation<UpdateDepartmentMutation, UpdateDepartmentMutationVariables>(UpdateDepartmentDocument);
 };
+export const UpdateInstrumentFunctionDocument = gql`
+    mutation UpdateInstrumentFunction($id: Int!, $instrumentfunction: String!, $instrumentfunctionletter: String!, $description: String!, $note: String!) {
+  updateInstrumentfunction(
+    id: $id
+    instrumentfunction: $instrumentfunction
+    instrumentfunctionletter: $instrumentfunctionletter
+    description: $description
+    note: $note
+  ) {
+    id
+    instrumentfunction
+    instrumentfunctionletter
+    description
+    note
+  }
+}
+    `;
+
+export function useUpdateInstrumentFunctionMutation() {
+  return Urql.useMutation<UpdateInstrumentFunctionMutation, UpdateInstrumentFunctionMutationVariables>(UpdateInstrumentFunctionDocument);
+};
 export const UpdateMeasuredVariableDocument = gql`
     mutation UpdateMeasuredVariable($id: Int!, $measuredvariable: String!, $measuredvariableletter: String!, $description: String!, $note: String!) {
   updateMeasuredvariable(
@@ -509,6 +738,7 @@ export const UpdateMeasuredVariableDocument = gql`
     description: $description
     note: $note
   ) {
+    id
     measuredvariable
     measuredvariableletter
     description
@@ -520,16 +750,39 @@ export const UpdateMeasuredVariableDocument = gql`
 export function useUpdateMeasuredVariableMutation() {
   return Urql.useMutation<UpdateMeasuredVariableMutation, UpdateMeasuredVariableMutationVariables>(UpdateMeasuredVariableDocument);
 };
+export const AllInstrumentfunctionsDocument = gql`
+    query AllInstrumentfunctions($limit: Int!, $cursor: String) {
+  allInstrumentfunctions(limit: $limit, cursor: $cursor) {
+    hasMore
+    allInstrumentfunctions {
+      id
+      createdDate
+      updatedDate
+      instrumentfunction
+      instrumentfunctionletter
+      description
+      note
+    }
+  }
+}
+    `;
+
+export function useAllInstrumentfunctionsQuery(options: Omit<Urql.UseQueryArgs<AllInstrumentfunctionsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<AllInstrumentfunctionsQuery>({ query: AllInstrumentfunctionsDocument, ...options });
+};
 export const AllMeasuredvariablesDocument = gql`
     query AllMeasuredvariables($limit: Int!, $cursor: String) {
   allMeasuredvariables(limit: $limit, cursor: $cursor) {
-    id
-    createdDate
-    updatedDate
-    measuredvariable
-    measuredvariableletter
-    description
-    note
+    hasMore
+    allMeasuredvariables {
+      id
+      createdDate
+      updatedDate
+      measuredvariable
+      measuredvariableletter
+      description
+      note
+    }
   }
 }
     `;
@@ -571,6 +824,23 @@ export const AllDepartmentsDocument = gql`
 
 export function useAllDepartmentsQuery(options: Omit<Urql.UseQueryArgs<AllDepartmentsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<AllDepartmentsQuery>({ query: AllDepartmentsDocument, ...options });
+};
+export const InstrumentfunctionDocument = gql`
+    query Instrumentfunction($id: Int!) {
+  instrumentfunction(id: $id) {
+    id
+    createdDate
+    updatedDate
+    instrumentfunction
+    instrumentfunctionletter
+    description
+    note
+  }
+}
+    `;
+
+export function useInstrumentfunctionQuery(options: Omit<Urql.UseQueryArgs<InstrumentfunctionQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<InstrumentfunctionQuery>({ query: InstrumentfunctionDocument, ...options });
 };
 export const MeasuredvariableDocument = gql`
     query Measuredvariable($id: Int!) {

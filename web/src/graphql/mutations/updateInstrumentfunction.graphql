@@ -1,0 +1,9 @@
+mutation UpdateInstrumentFunction($id: Int!, $instrumentfunction: String!,$instrumentfunctionletter: String!, $description: String!, $note: String!) {
+  updateInstrumentfunction(id: $id, instrumentfunction: $instrumentfunction,  instrumentfunctionletter: $instrumentfunctionletter,description: $description, note: $note) {
+    id
+    instrumentfunction
+    instrumentfunctionletter
+    description
+    note
+  }
+}

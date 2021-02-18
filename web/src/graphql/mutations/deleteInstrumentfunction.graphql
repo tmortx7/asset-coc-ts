@@ -1,0 +1,3 @@
+mutation DeleteInstrumentfunction($id: Int!) {
+  deleteInstrumentfunction(id: $id)
+}

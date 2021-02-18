@@ -15,7 +15,13 @@ export const InputControl: FC<InputControlProps> = (
   return (
     <Box>
       <FormControl name={name} label={label} {...rest}>
-        <Input size="lg"{...field} id={name} {...inputProps} />
+        <Input
+          size="lg"
+          {...field}
+          id={name}
+          {...inputProps}
+          autoComplete="off"
+        />
       </FormControl>
     </Box>
   );

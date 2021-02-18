@@ -4,7 +4,7 @@ import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
 import * as React from "react";
 import * as Yup from "yup";
-import { useCreateMeasuredvariableMutation } from "../generated/graphql";
+import { useCreateInstrumentfunctionMutation } from "../generated/graphql";
 import {
   InputControl,
   SubmitButton,
@@ -12,32 +12,33 @@ import {
 } from "../theme/components/formik";
 import { createUrqlClient } from "../utils/createUrqlClient";
 import { toErrorMap } from "../utils/toErrorMap";
-interface measuredvariableProps {}
+
+interface instrumentfunctionProps {}
 
 const validationSchema = Yup.object({
-  measuredvariableletter: Yup.string().required().max(3),
-  measuredvariable: Yup.string().required(),
+  instrumentfunctionletter: Yup.string().required().max(3),
+  instrumentfunction: Yup.string().required(),
 });
 
-const CreateMeasuredVariable: React.FC<measuredvariableProps> = ({}) => {
+const CreateInstrumentFunction: React.FC<instrumentfunctionProps> = ({}) => {
   const router = useRouter();
-  const [, createMeasuredvariable] = useCreateMeasuredvariableMutation();
+  const [, createInstrumentfunction] = useCreateInstrumentfunctionMutation();
   return (
     <div>
       <Formik
         initialValues={{
-          measuredvariableletter: "",
-          measuredvariable: "",
+          instrumentfunctionletter: "",
+          instrumentfunction: "",
           description: "",
           note: "",
         }}
         onSubmit={async (values, { setErrors }) => {
-          const response = await createMeasuredvariable(values);
-          if (response.data?.createMeasuredvariable.errors) {
-            setErrors(toErrorMap(response.data.createMeasuredvariable.errors));
-          } else if (response.data?.createMeasuredvariable.measuredvariable) {
+          const response = await createInstrumentfunction(values);
+          if (response.data?.createInstrumentfunction.errors) {
+            setErrors(toErrorMap(response.data.createInstrumentfunction.errors));
+          } else if (response.data?.createInstrumentfunction.instrumentfunction) {
             // worked
-            router.push("/measuredvariable");
+            router.push("/instrumentfunction");
           }
         }}
         validationSchema={validationSchema}
@@ -54,8 +55,8 @@ const CreateMeasuredVariable: React.FC<measuredvariableProps> = ({}) => {
             as="form"
             onSubmit={handleSubmit as any}
           >
-            <InputControl name="measuredvariable" label="Measured Variable" />
-            <InputControl name="measuredvariableletter" label="Abbr." />
+            <InputControl name="instrumentfunction" label="Instrument Function" />
+            <InputControl name="instrumentfunctionletter" label="Abbr." />
             <InputControl name="description" label="Description" />
             <TextareaControl name="note" label="Note" />
 
@@ -69,4 +70,4 @@ const CreateMeasuredVariable: React.FC<measuredvariableProps> = ({}) => {
   );
 };
 
-export default withUrqlClient(createUrqlClient)(CreateMeasuredVariable);
+export default withUrqlClient(createUrqlClient)(CreateInstrumentFunction);

@@ -1,5 +1,7 @@
 query AllMeasuredvariables($limit: Int!, $cursor: String) {
   allMeasuredvariables(limit: $limit, cursor: $cursor) {
+    hasMore
+    allMeasuredvariables{
       id
       createdDate
       updatedDate
@@ -8,4 +10,6 @@ query AllMeasuredvariables($limit: Int!, $cursor: String) {
       description
       note
     }
+  }
+
   }

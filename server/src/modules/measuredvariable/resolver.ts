@@ -21,28 +21,50 @@ class MeasuredVariableResponse {
   measuredvariable?: MeasuredVariable;
 }
 
+@ObjectType()
+class PaginatedMeasuredvariable {
+  @Field(() => [MeasuredVariable])
+  allMeasuredvariables: MeasuredVariable[];
+  @Field()
+  hasMore: boolean;
+}
+
+
 @Resolver()
 export class MeasuredVariableResolver {
-  @Query(() => [MeasuredVariable])
+
+  @Query(() => PaginatedMeasuredvariable)
   async allMeasuredvariables(
     @Arg("limit", () => Int) limit: number,
     @Arg("cursor", () => String, { nullable: true }) cursor: string | null
-  ): Promise<MeasuredVariable[]> {
+  ): Promise<PaginatedMeasuredvariable> {
     const realLimit = Math.min(50, limit);
-    const qb = getConnection()
-      .getRepository(MeasuredVariable)
-      .createQueryBuilder("p")
-      .orderBy('"createdDate"', "DESC")
-      .take(realLimit);
+    const reaLimitPlusOne = realLimit + 1;
+
+    const replacements: any[] = [reaLimitPlusOne];
 
     if (cursor) {
-      qb.where('"createdAt" < :cursor', {
-        cursor: new Date(parseInt(cursor)),
-      });
+      replacements.push(new Date(parseInt(cursor)));;
     }
 
-    return qb.getMany();
+    const allMeasuredvariables = await getConnection().query(
+      `
+      select p.*
+      from measured_variable p
+      ${cursor ? `where p."createdDate" < $2` : ""}
+      order by p."createdDate" DESC
+      limit $1
+    `,
+      replacements
+    );
+
+    return {
+      allMeasuredvariables: allMeasuredvariables.slice(0, realLimit),
+      hasMore: allMeasuredvariables.length === reaLimitPlusOne,
+    };
   }
+
+
 
   @Query(() => MeasuredVariable, { nullable: true })
   measuredvariable(@Arg("id", () => Int) id: number): Promise<MeasuredVariable | undefined> {
@@ -107,7 +129,7 @@ export class MeasuredVariableResolver {
   }
 
   @Mutation(() => Boolean)
-  async deleteMeasuredVariable(
+  async deleteMeasuredvariable(
     @Arg("id", () => Int) id: number
   ): Promise<boolean> {
     await MeasuredVariable.delete({ id });

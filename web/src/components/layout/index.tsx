@@ -51,10 +51,10 @@ const IndexPage = ({ children }: AppProps) => {
                       size="md"
                       variant="ghost"
                       onClick={() => {
-                        router.push("/createdepartment");
+                        router.push("/department");
                       }}
                     >
-                      Add Department
+                      Department
                     </Button>
                   </WrapItem>
                   <WrapItem>
@@ -62,10 +62,10 @@ const IndexPage = ({ children }: AppProps) => {
                       size="md"
                       variant="ghost"
                       onClick={() => {
-                        router.push("/");
+                        router.push("/measuredvariable");
                       }}
                     >
-                      Add Device
+                      Measured Variable
                     </Button>
                   </WrapItem>
                 </Wrap>

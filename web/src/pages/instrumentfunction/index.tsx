@@ -2,10 +2,10 @@ import { Box, Button, Flex, GridItem, Link, Spacer } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import NextLink from "next/link";
 import React, { useState } from "react";
-import { EditDeleteDepartmentButtons } from "../../components/EditDeleteDepartmentButtons";
+import { EditDeleteInstrumentfunctionButtons } from "../../components/EditDeleteInstrumentfunctionButtons";
 import Header from "../../components/header";
 import Layout from "../../components/layout";
-import { useAllDepartmentsQuery } from "../../generated/graphql";
+import { useAllInstrumentfunctionsQuery } from "../../generated/graphql";
 import { TableWrap } from "../../theme/style";
 import { createUrqlClient } from "../../utils/createUrqlClient";
 
@@ -16,7 +16,7 @@ const IndexPage = () => {
   });
   console.log(variables);
 
-  const [{ data, fetching }] = useAllDepartmentsQuery({
+  const [{ data, fetching }] = useAllInstrumentfunctionsQuery({
     variables,
   });
 
@@ -36,9 +36,8 @@ const IndexPage = () => {
           >
             <Flex h="100%" w="100%">
               <Spacer />
-              <NextLink href="/createdepartment">
+              <NextLink href="/instrumentfunction/create-instrumentfunction">
                 <Link
-                  width="100%"
                   fontSize="12px"
                   size="xs"
                   mr="4px"
@@ -46,30 +45,32 @@ const IndexPage = () => {
                   textDecoration="none"
                   textColor="#767676"
                 >
-                  Create Department
+                  create
                 </Link>
               </NextLink>
             </Flex>
           </Box>
           <table>
-            <caption>He-Man and Skeletor facts</caption>
+            <caption>instrument function 2021</caption>
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Department</th>
-                <th>Edit</th>
+                <th>Abbr.</th>
+                <th>Instrument Function</th>
+                <th>Description</th>
+                <th>edit</th>
               </tr>
             </thead>
             <tbody>
               {data &&
-                data.allDepartments &&
-                data.allDepartments.allDepartments.map((p: any) =>
+                data.allInstrumentfunctions &&
+                data.allInstrumentfunctions.allInstrumentfunctions.map((p: any) =>
                   !p ? null : (
                     <tr key={p.id}>
-                      <td>{p.id}</td>
-                      <td>{p.department}</td>
+                      <td>{p.instrumentfunctionletter}</td>
+                      <td>{p.instrumentfunction}</td>
+                      <td>{p.description}</td>
                       <td>
-                        <EditDeleteDepartmentButtons id={p.id} />
+                        <EditDeleteInstrumentfunctionButtons id={p.id} />
                       </td>
                     </tr>
                   )
@@ -77,15 +78,15 @@ const IndexPage = () => {
             </tbody>
           </table>
         </TableWrap>
-        {data && data.allDepartments.hasMore ? (
+        {data && data.allInstrumentfunctions.hasMore ? (
           <Button
             onClick={() => {
               setVariables({
                 limit: variables.limit,
                 cursor:
-                  data.allDepartments.allDepartments[
-                    data.allDepartments.allDepartments.length - 1
-                  ].createdAt,
+                  data.allInstrumentfunctions.allInstrumentfunctions[
+                    data.allInstrumentfunctions.allInstrumentfunctions.length - 1
+                  ].createdDate,
               });
             }}
             isLoading={fetching}

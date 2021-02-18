@@ -1,0 +1,27 @@
+mutation CreateInstrumentfunction(
+  $instrumentfunction: String!
+  $instrumentfunctionletter: String!
+  $description: String
+  $note: String
+) {
+  createInstrumentfunction(
+    input: {
+      instrumentfunction: $instrumentfunction
+      instrumentfunctionletter: $instrumentfunctionletter
+      description: $description
+      note: $note
+    }
+  ) {
+    errors {
+      field
+      message
+    }
+    instrumentfunction {
+      id
+      instrumentfunction
+      instrumentfunctionletter
+      description
+      note
+    }
+  }
+}

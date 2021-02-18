@@ -12,18 +12,18 @@ import {
 
 @Entity()
 @ObjectType()
-export class MeasuredVariable extends BaseEntity {
+export class InstrumentFunction extends BaseEntity {
   @Field(() => Int)
   @PrimaryGeneratedColumn()
   id!: number;
 
   @Field({nullable: true})
   @Column({ unique: true })
-  measuredvariable!: string;
+  instrumentfunction!: string;
 
   @Field({nullable: true})
   @Column({ unique: true })
-  measuredvariableletter!: string;
+  instrumentfunctionletter!: string;
 
   @Field({ nullable: true })
   @Column({ nullable: true })

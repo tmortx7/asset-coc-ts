@@ -1,5 +1,6 @@
 mutation UpdateMeasuredVariable($id: Int!, $measuredvariable: String!,$measuredvariableletter: String!, $description: String!, $note: String!) {
   updateMeasuredvariable(id: $id, measuredvariable: $measuredvariable,  measuredvariableletter: $measuredvariableletter,description: $description, note: $note) {
+    id
     measuredvariable
     measuredvariableletter
     description

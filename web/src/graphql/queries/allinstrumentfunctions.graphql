@@ -1,0 +1,15 @@
+query AllInstrumentfunctions($limit: Int!, $cursor: String) {
+  allInstrumentfunctions(limit: $limit, cursor: $cursor) {
+    hasMore
+    allInstrumentfunctions{
+      id
+      createdDate
+      updatedDate
+      instrumentfunction
+      instrumentfunctionletter
+      description
+      note
+    }
+  }
+
+  }

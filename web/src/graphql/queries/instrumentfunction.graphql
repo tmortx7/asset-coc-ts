@@ -1,0 +1,11 @@
+query Instrumentfunction($id: Int!) {
+  instrumentfunction(id: $id) {
+    id
+    createdDate
+    updatedDate
+    instrumentfunction
+    instrumentfunctionletter
+    description
+    note
+  }
+}

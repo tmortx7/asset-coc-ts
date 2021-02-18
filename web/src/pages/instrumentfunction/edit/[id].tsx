@@ -6,8 +6,8 @@ import React from "react";
 import Header from "../../../components/header";
 import Layout from "../../../components/layout";
 import {
-  useMeasuredvariableQuery,
-  useUpdateMeasuredVariableMutation,
+  useInstrumentfunctionQuery,
+  useUpdateInstrumentFunctionMutation,
 } from "../../../generated/graphql";
 import {
   InputControl,
@@ -17,16 +17,16 @@ import {
 import { createUrqlClient } from "../../../utils/createUrqlClient";
 import { useGetIntId } from "../../../utils/useGetIntId";
 
-const EditMeasuredVariable = ({}) => {
+const EditInstrumentFunction = ({}) => {
   const router = useRouter();
   const intId = useGetIntId();
-  const [{ data, fetching }] = useMeasuredvariableQuery({
+  const [{ data, fetching }] = useInstrumentfunctionQuery({
     pause: intId === -1,
     variables: {
       id: intId,
     },
   });
-  const [, updateMeasuredvariable] = useUpdateMeasuredVariableMutation();
+  const [, updateInstrumentfunction] = useUpdateInstrumentFunctionMutation();
   if (fetching) {
     return (
       <div>
@@ -35,7 +35,7 @@ const EditMeasuredVariable = ({}) => {
     );
   }
 
-  if (!data?.measuredvariable) {
+  if (!data?.instrumentfunction) {
     return (
       <div>
         <Box>could not find post</Box>
@@ -49,13 +49,13 @@ const EditMeasuredVariable = ({}) => {
       <GridItem colStart={4} colSpan={4} rowStart={3}>
         <Formik
           initialValues={{
-            measuredvariableletter: data.measuredvariable.measuredvariableletter,
-            measuredvariable: data.measuredvariable.measuredvariable,
-            description: data.measuredvariable.description,
-            note: data.measuredvariable.note,
+            instrumentfunctionletter: data.instrumentfunction.instrumentfunctionletter,
+            instrumentfunction: data.instrumentfunction.instrumentfunction,
+            description: data.instrumentfunction.description,
+            note: data.instrumentfunction.note,
           }}
           onSubmit={async (values) => {
-            await updateMeasuredvariable({ id: intId, ...values });
+            await updateInstrumentfunction({ id: intId, ...values });
             console.log(values)
             router.back();
           }}
@@ -71,8 +71,8 @@ const EditMeasuredVariable = ({}) => {
               as="form"
               onSubmit={handleSubmit as any}
             >
-              <InputControl name="measuredvariableletter" label="Abbr." />
-              <InputControl name="measuredvariable" label="Measured Variable" />
+              <InputControl name="instrumentfunctionletter" label="Abbr." />
+              <InputControl name="instrumentfunction" label="Instrument Function" />
               <InputControl name="description" label="Description" />
               <TextareaControl name="note" label="Notes" />
 
@@ -87,4 +87,4 @@ const EditMeasuredVariable = ({}) => {
   );
 };
 
-export default withUrqlClient(createUrqlClient)(EditMeasuredVariable);
+export default withUrqlClient(createUrqlClient)(EditInstrumentFunction);
