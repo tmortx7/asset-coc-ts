@@ -1,0 +1,11 @@
+query ONESITE($id: Int!) {
+  oneSite(id: $id) {
+    id
+    createdAt
+    updatedAt
+    sitename
+    sitenumber
+    description
+    note
+  }
+}

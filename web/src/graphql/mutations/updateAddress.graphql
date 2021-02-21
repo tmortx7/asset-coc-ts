@@ -1,0 +1,11 @@
+mutation UPDATEADDRESS($id: Int!,$siteId: Int!,$pluscode: String!,$description: String!,$note: String!){
+  updateAddress(
+    id: $id,
+    siteId: $siteId,
+    pluscode: $pluscode,
+    description: $description,
+    note: $note,
+  ){
+    id
+  }
+}

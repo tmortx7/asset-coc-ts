@@ -55,7 +55,7 @@ const EditInstrumentFunction = ({}) => {
             note: data.instrumentfunction.note,
           }}
           onSubmit={async (values) => {
-            await updateInstrumentfunction({ id: intId, ...values });
+            await updateInstrumentfunction({variables: { id: intId, ...values }});
             console.log(values)
             router.back();
           }}

@@ -1,0 +1,9 @@
+mutation UpdateSite($id: Int!, $sitename: String!,$sitenumber: String!, $description: String!, $note: String!) {
+  updateSite(id: $id, sitename: $sitename, sitenumber: $sitenumber, description: $description, note: $note) {
+    id
+    sitename
+    sitenumber
+    description
+    note
+  }
+}

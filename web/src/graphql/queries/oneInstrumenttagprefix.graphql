@@ -1,0 +1,18 @@
+query ONEINSTRUMENTTAGPREFIX($id: Int!){
+  oneInstrumentTagprefix(id: $id){
+    id
+    tagprefix
+    instrumentfunctionId
+    measuredvariableId
+    description
+    note
+    measuredvariable{
+      measuredvariableletter
+      measuredvariable
+    }
+    instrumentfunction{
+      instrumentfunctionletter
+      instrumentfunction
+    }
+  }
+}

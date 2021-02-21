@@ -1,13 +1,23 @@
-import { cacheExchange, Resolver, Cache} from "@urql/exchange-graphcache";
+import { Cache, cacheExchange } from "@urql/exchange-graphcache";
 import Router from "next/router";
-import {
-  dedupExchange,
-  Exchange,
-  fetchExchange,
-  stringifyVariables,
-} from "urql";
+import { dedupExchange, Exchange, fetchExchange } from "urql";
 import { pipe, tap } from "wonka";
-import { DeleteDepartmentMutationVariables,DeleteMeasuredvariableMutationVariables , DeleteInstrumentfunctionMutationVariables} from "../generated/graphql";
+import {
+  DeleteaddressMutationVariables,
+  DeleteDepartmentMutationVariables,
+  DeleteInstrumentfunctionMutationVariables,
+  DeleteInstrumentTagprefixMutationVariables,
+  DeleteMeasuredvariableMutationVariables,
+  DeleteSiteMutationVariables,
+} from "../generated/graphql";
+import {
+  cursorPaginationAddresses,
+  cursorPaginationDepartments,
+  cursorPaginationInstrumentfunctions,
+  cursorPaginationInstrumenttagprefixes,
+  cursorPaginationMeasuredVariable,
+  cursorPaginationSites,
+} from "./cursorPagination";
 import { isServer } from "./isServer";
 
 const errorExchange: Exchange = ({ forward }) => (ops$) => {
@@ -20,119 +30,32 @@ const errorExchange: Exchange = ({ forward }) => (ops$) => {
     })
   );
 };
-
-const cursorPagination = (): Resolver => {
-  return (_parent, fieldArgs, cache, info) => {
-    const { parentKey: entityKey, fieldName } = info;
-    const allFields = cache.inspectFields(entityKey);
-    const fieldInfos = allFields.filter((info) => info.fieldName === fieldName);
-    const size = fieldInfos.length;
-    if (size === 0) {
-      return undefined;
-    }
-
-    const fieldKey = `${fieldName}(${stringifyVariables(fieldArgs)})`;
-    const isItInTheCache = cache.resolve(
-      cache.resolve(entityKey, fieldKey) as string,
-      "allDepartments"
-    );
-    info.partial = !isItInTheCache;
-    let hasMore = true;
-    const results: string[] = [];
-    fieldInfos.forEach((fi) => {
-      const key = cache.resolve(entityKey, fi.fieldKey) as string;
-      const data = cache.resolve(key, "allDepartments") as string[];
-      const _hasMore = cache.resolve(key, "hasMore");
-      if (!_hasMore) {
-        hasMore = _hasMore as boolean;
-      }
-      results.push(...data);
-    });
-
-    return {
-      __typename: "PaginatedDepartments",
-      hasMore,
-      allDepartments: results,
-    };
-  };
-};
+function invalidateAddresses(cache: Cache) {
+  const allFields = cache.inspectFields("Query");
+  const fieldInfos = allFields.filter(
+    (info) => info.fieldName === "allAddresses"
+  );
+  fieldInfos.forEach((fi) => {
+    cache.invalidate("Query", "allAddresses", fi.arguments || {});
+  });
+}
 
 
-const cursorPagination2 = (): Resolver => {
-  return (_parent, fieldArgs, cache, info) => {
-    const { parentKey: entityKey, fieldName } = info;
-    const allFields = cache.inspectFields(entityKey);
-    const fieldInfos = allFields.filter((info) => info.fieldName === fieldName);
-    const size = fieldInfos.length;
-    if (size === 0) {
-      return undefined;
-    }
-
-    const fieldKey = `${fieldName}(${stringifyVariables(fieldArgs)})`;
-    const isItInTheCache = cache.resolve(
-      cache.resolve(entityKey, fieldKey) as string,
-      "allMeasuredvariables"
-    );
-    info.partial = !isItInTheCache;
-    let hasMore = true;
-    const results: string[] = [];
-    fieldInfos.forEach((fi) => {
-      const key = cache.resolve(entityKey, fi.fieldKey) as string;
-      const data = cache.resolve(key, "allMeasuredvariables") as string[];
-      const _hasMore = cache.resolve(key, "hasMore");
-      if (!_hasMore) {
-        hasMore = _hasMore as boolean;
-      }
-      results.push(...data);
-    });
-
-    return {
-      __typename: "PaginatedMeasuredvariable",
-      hasMore,
-      allMeasuredvariables: results,
-    };
-  };
-};
-
-const cursorPagination3 = (): Resolver => {
-  return (_parent, fieldArgs, cache, info) => {
-    const { parentKey: entityKey, fieldName } = info;
-    const allFields = cache.inspectFields(entityKey);
-    const fieldInfos = allFields.filter((info) => info.fieldName === fieldName);
-    const size = fieldInfos.length;
-    if (size === 0) {
-      return undefined;
-    }
-
-    const fieldKey = `${fieldName}(${stringifyVariables(fieldArgs)})`;
-    const isItInTheCache = cache.resolve(
-      cache.resolve(entityKey, fieldKey) as string,
-      "allInstrumentfunctions"
-    );
-    info.partial = !isItInTheCache;
-    let hasMore = true;
-    const results: string[] = [];
-    fieldInfos.forEach((fi) => {
-      const key = cache.resolve(entityKey, fi.fieldKey) as string;
-      const data = cache.resolve(key, "allInstrumentfunctions") as string[];
-      const _hasMore = cache.resolve(key, "hasMore");
-      if (!_hasMore) {
-        hasMore = _hasMore as boolean;
-      }
-      results.push(...data);
-    });
-
-    return {
-      __typename: "PaginatedInstrumentfunction",
-      hasMore,
-      allInstrumentfunctions: results,
-    };
-  };
-};
+function invalidateInstrumentTagprefixes(cache: Cache) {
+  const allFields = cache.inspectFields("Query");
+  const fieldInfos = allFields.filter(
+    (info) => info.fieldName === "instrumentTagprefixes"
+  );
+  fieldInfos.forEach((fi) => {
+    cache.invalidate("Query", "instrumentTagprefixes", fi.arguments || {});
+  });
+}
 
 function invalidateAllDepartments(cache: Cache) {
   const allFields = cache.inspectFields("Query");
-  const fieldInfos = allFields.filter((info) => info.fieldName === "allDepartments");
+  const fieldInfos = allFields.filter(
+    (info) => info.fieldName === "allDepartments"
+  );
   fieldInfos.forEach((fi) => {
     cache.invalidate("Query", "allDepartments", fi.arguments || {});
   });
@@ -140,7 +63,9 @@ function invalidateAllDepartments(cache: Cache) {
 
 function invalidateAllMeasuredvariables(cache: Cache) {
   const allFields = cache.inspectFields("Query");
-  const fieldInfos = allFields.filter((info) => info.fieldName === "allMeasuredvariables");
+  const fieldInfos = allFields.filter(
+    (info) => info.fieldName === "allMeasuredvariables"
+  );
   fieldInfos.forEach((fi) => {
     cache.invalidate("Query", "allMeasuredvariables", fi.arguments || {});
   });
@@ -148,9 +73,19 @@ function invalidateAllMeasuredvariables(cache: Cache) {
 
 function invalidateAllInstrumentfunctions(cache: Cache) {
   const allFields = cache.inspectFields("Query");
-  const fieldInfos = allFields.filter((info) => info.fieldName === "allInstrumentfunctions");
+  const fieldInfos = allFields.filter(
+    (info) => info.fieldName === "allInstrumentfunctions"
+  );
   fieldInfos.forEach((fi) => {
     cache.invalidate("Query", "allInstrumentfunctions", fi.arguments || {});
+  });
+}
+
+function invalidateAllSites(cache: Cache) {
+  const allFields = cache.inspectFields("Query");
+  const fieldInfos = allFields.filter((info) => info.fieldName === "allSites");
+  fieldInfos.forEach((fi) => {
+    cache.invalidate("Query", "allSites", fi.arguments || {});
   });
 }
 
@@ -177,17 +112,40 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
           PaginatedDepartments: () => null,
           PaginatedMeasuredvariable: () => null,
           PaginatedInstrumentfunction: () => null,
-
+          PaginatedInstrumentTagprefix: () => null,
+          PaginatedSites: () => null,
+          PaginatedAddresses: () => null,
         },
         resolvers: {
           Query: {
-            allDepartments: cursorPagination(),
-            allMeasuredvariables: cursorPagination2(),
-            allInstrumentfunctions: cursorPagination3(),
+            allAddresses: cursorPaginationAddresses(),
+            allDepartments: cursorPaginationDepartments(),
+            allMeasuredvariables: cursorPaginationMeasuredVariable(),
+            allInstrumentfunctions: cursorPaginationInstrumentfunctions(),
+            instrumentTagprefixes: cursorPaginationInstrumenttagprefixes(),
+            allSites: cursorPaginationSites(),
           },
         },
         updates: {
           Mutation: {
+            deleteAddress: (_result, args, cache, info) => {
+              cache.invalidate({
+                __typename: "Address",
+                id: (args as DeleteaddressMutationVariables).id,
+              });
+            },
+            deleteSite: (_result, args, cache, info) => {
+              cache.invalidate({
+                __typename: "Site",
+                id: (args as DeleteSiteMutationVariables).id,
+              });
+            },
+            deleteInstrumenttagprefix: (_result, args, cache, info) => {
+              cache.invalidate({
+                __typename: "InstrumentTagPrefix",
+                id: (args as DeleteInstrumentTagprefixMutationVariables).id,
+              });
+            },
             deleteInstrumentfunction: (_result, args, cache, info) => {
               cache.invalidate({
                 __typename: "InstrumentFunction",
@@ -206,7 +164,16 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
                 id: (args as DeleteMeasuredvariableMutationVariables).id,
               });
             },
-             createDepartment: (_result, args, cache, info) => {
+            createAddress: (_result, args, cache, info) => {
+              invalidateAddresses(cache);
+            },
+            createSite: (_result, args, cache, info) => {
+              invalidateAllSites(cache);
+            },
+            createInstrumentTagprefix: (_result, args, cache, info) => {
+              invalidateInstrumentTagprefixes(cache);
+            },
+            createDepartment: (_result, args, cache, info) => {
               invalidateAllDepartments(cache);
             },
             createMeasuredvariable: (_result, args, cache, info) => {
@@ -215,7 +182,6 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
             createInstrumentfunction: (_result, args, cache, info) => {
               invalidateAllInstrumentfunctions(cache);
             },
-
           },
         },
       }),

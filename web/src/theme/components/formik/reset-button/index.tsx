@@ -1,6 +1,6 @@
-import { Button, ButtonProps } from '@chakra-ui/react';
-import { useFormikContext } from 'formik';
-import React, { FC } from 'react';
+import { Button, ButtonProps } from "@chakra-ui/react";
+import { useFormikContext } from "formik";
+import React, { FC } from "react";
 
 export type ResetButtonProps = ButtonProps;
 
@@ -10,6 +10,7 @@ export const ResetButton: FC<ResetButtonProps> = (props: ResetButtonProps) => {
 
   return (
     <Button
+      size="xs"
       colorScheme="teal"
       variant="outline"
       onClick={() => resetForm()}

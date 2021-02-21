@@ -1,0 +1,14 @@
+query GETAllSITES {
+  allSites(limit: 500) {
+    hasMore
+    allSites{
+      id
+      createdAt
+      updatedAt
+      sitename
+      sitenumber
+      description
+      note
+    }
+  }
+}

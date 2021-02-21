@@ -1,0 +1,14 @@
+query AllSites($limit: Int!, $cursor: String) {
+  allSites(limit: $limit, cursor: $cursor) {
+    hasMore
+    allSites{
+      id
+      createdAt
+      updatedAt
+      sitename
+      sitenumber
+      description
+      note
+    }
+  }
+}

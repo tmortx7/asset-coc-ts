@@ -16,7 +16,7 @@ export const InputControl: FC<InputControlProps> = (
     <Box>
       <FormControl name={name} label={label} {...rest}>
         <Input
-          size="lg"
+          size="xs"
           {...field}
           id={name}
           {...inputProps}

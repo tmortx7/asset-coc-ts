@@ -1,0 +1,9 @@
+query GETALLMEASUREDVARIABLES{
+  getAllMeasuredvariables{
+    id
+    measuredvariable
+    measuredvariableletter
+    description
+    note
+  }
+}

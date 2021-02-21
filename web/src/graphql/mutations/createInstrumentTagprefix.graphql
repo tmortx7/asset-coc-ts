@@ -1,0 +1,23 @@
+mutation CreateInstrumentTagprefix(
+  	$tagprefix:String!,
+    $measuredvariableId: Int!,
+    $instrumentfunctionId: Int!,
+    $description: String,
+    $note: String,
+){
+  createInstrumentTagprefix(input:{
+    tagprefix: $tagprefix,
+    measuredvariableId: $measuredvariableId,
+    instrumentfunctionId: $instrumentfunctionId,
+    description: $description,
+    note: $note
+  }){
+    tagprefix{
+      id
+    }
+    errors{
+      field
+      message
+    }
+  }
+}

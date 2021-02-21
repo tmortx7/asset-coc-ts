@@ -12,9 +12,10 @@ export const SubmitButton: FC<SubmitButtonProps> = (
 
   return (
     <Button
+      padding="20px"
       type="submit"
       isLoading={isSubmitting}
-      size="md"
+      size="xs"
       border="2px"
       borderColor="#c8102e"
       mt={mt}

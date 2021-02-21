@@ -1,0 +1,17 @@
+mutation CREATEADDRESS($siteId: Int!,$pluscode: String, $description: String,$note: String){
+  createAddress(input:{
+    siteId: $siteId,
+    pluscode: $pluscode,
+    description: $description,
+    note: $note,
+  }){
+    address{
+      id
+      siteId
+    }
+    errors{
+      field
+      message
+    }
+  }
+}

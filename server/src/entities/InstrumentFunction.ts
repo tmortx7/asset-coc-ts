@@ -1,14 +1,18 @@
 import { Field, Int, ObjectType } from "type-graphql";
+import { TypeormLoader } from "type-graphql-dataloader";
 import {
   BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
   Generated,
+  OneToMany,
   PrimaryGeneratedColumn,
+  RelationId,
   UpdateDateColumn,
   VersionColumn,
 } from "typeorm";
+import { InstrumentTagPrefix } from "./InstrumentTagPrefix";
 
 @Entity()
 @ObjectType()
@@ -17,21 +21,21 @@ export class InstrumentFunction extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Field({nullable: true})
+  @Field( )
   @Column({ unique: true })
   instrumentfunction!: string;
 
-  @Field({nullable: true})
+  @Field( )
   @Column({ unique: true })
   instrumentfunctionletter!: string;
 
-  @Field({ nullable: true })
-  @Column({ nullable: true })
-  description?: string;
+  @Field( )
+  @Column( )
+  description: string;
 
-  @Field({ nullable: true })
-  @Column({ nullable: true })
-  note?: string;
+  @Field( )
+  @Column( )
+  note: string;
 
   @Field(() => String)
   @Generated("uuid")
@@ -48,4 +52,22 @@ export class InstrumentFunction extends BaseEntity {
   @Field()
   @VersionColumn()
   version: number;
+
+  @Field(() => [InstrumentTagPrefix])
+  @OneToMany(
+    () => InstrumentTagPrefix,
+    (Instrumenttagprefix) => Instrumenttagprefix.instrumentfunction
+  )
+  @TypeormLoader(
+    () => InstrumentTagPrefix,
+    (instrumentfunction: InstrumentFunction) =>
+      instrumentfunction.instrumenttagprefixIds
+  )
+  instrumenttagprefixes: InstrumentTagPrefix[];
+
+  @RelationId(
+    (instrumentfunction: InstrumentFunction) =>
+      instrumentfunction.instrumenttagprefixes
+  )
+  instrumenttagprefixIds: number[];
 }

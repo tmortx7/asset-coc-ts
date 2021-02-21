@@ -9,9 +9,9 @@ export class InstrumentFunctionInput implements Partial<InstrumentFunction> {
   @Field()
   instrumentfunctionletter: string;
 
-  @Field({ nullable: true })
-  description?: string;
+  @Field()
+  description: string;
 
-  @Field({ nullable: true })
-  note?: string;
+  @Field()
+  note: string;
 }

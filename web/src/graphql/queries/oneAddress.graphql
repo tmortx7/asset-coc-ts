@@ -1,0 +1,10 @@
+query ONEADDRESS($id: Int!){
+  oneAddress(id:$id){
+    id
+    siteId
+    pluscode
+    description
+    note
+
+  }
+}

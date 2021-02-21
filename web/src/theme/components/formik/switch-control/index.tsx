@@ -1,9 +1,9 @@
-import { Box, Flex, Switch, SwitchProps } from '@chakra-ui/react';
-import { css } from '@emotion/react';
-import { useField } from 'formik';
-import React, { FC } from 'react';
-import { BaseProps } from '../base-props';
-import { FormControl } from '../form-control';
+import { Box, Flex, Switch, SwitchProps } from "@chakra-ui/react";
+import { css } from "@emotion/react";
+import { useField } from "formik";
+import React, { FC } from "react";
+import { BaseProps } from "../base-props";
+import { FormControl } from "../form-control";
 
 export type SwitchControlProps = BaseProps & { switchProps?: SwitchProps };
 
@@ -37,6 +37,7 @@ export const SwitchControl: FC<SwitchControlProps> = (
         {...rest}
       >
         <Switch
+          size="xs"
           {...field}
           id={name}
           isInvalid={!!error && touched}

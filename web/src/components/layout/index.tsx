@@ -33,7 +33,7 @@ const IndexPage = ({ children }: AppProps) => {
       >
         <GridItem colStart={1} rowStart={1}>
           <IconButton
-            mt="4px"
+            mt="26px"
             aria-label="Main Menu"
             icon={<HamburgerIcon />}
             onClick={onOpen}

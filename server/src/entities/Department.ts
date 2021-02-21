@@ -17,17 +17,16 @@ export class Department extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Field({ description: "City department designation" ,nullable:true})
-  @Column({ unique: true })
+  @Column( )
   department!: string;
 
-  @Field({ description: "City department description" ,nullable: true})
-  @Column({ nullable: true })
-  description?: string;
+  @Field()
+  @Column()
+  description: string;
 
-  @Field({nullable:true})
-  @Column({ nullable: true })
-  note?: string;
+  @Field()
+  @Column()
+  note: string;
 
   @Field(() => String)
   @CreateDateColumn()

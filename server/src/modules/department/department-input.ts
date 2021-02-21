@@ -7,9 +7,9 @@ export class DepartmentInput implements Partial<Department> {
   @Field()
   department: string;
 
-  @Field({ nullable: true })
-  description?: string;
+  @Field()
+  description: string;
 
-  @Field({ nullable: true })
-  note?: string;
+  @Field()
+  note: string;
 }

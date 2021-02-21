@@ -1,0 +1,9 @@
+query GETALLINSTRUMENTFUNCTIONS {
+  getAllInstrumentfunctions{
+    id
+    instrumentfunction
+    instrumentfunctionletter
+    description
+    note
+  }
+}

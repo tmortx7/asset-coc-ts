@@ -1,0 +1,13 @@
+mutation CREATE_SITE($sitename: String!,$sitenumber: String!, $description: String, $note: String){
+  createSite(input:{
+    sitename:$sitename,
+    sitenumber: $sitenumber,
+    note:$note,
+    description:$description,
+  }){
+    errors{
+      field
+      message
+    }
+  }
+}

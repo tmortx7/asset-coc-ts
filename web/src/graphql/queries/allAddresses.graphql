@@ -1,0 +1,16 @@
+query ALLADDRESSES($limit: Int!, $cursor: String) {
+  allAddresses(limit: $limit, cursor: $cursor) {
+    hasMore
+    allAddresses {
+      id
+      pluscode
+      description
+      note
+      createdAt
+      updatedAt
+      site {
+        sitename
+      }
+    }
+  }
+}

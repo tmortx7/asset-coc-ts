@@ -6,10 +6,10 @@ export default {
     "html,body": {
       backgroundColor: "#fff",
       color: "#333",
-      fontFamily: "Open Sans, Helvetica, Arial, Verdana, sans-serif",
+      fontFamily: "Segoe UI, Arial, Helvetica, sans-seri",
       fontWeight: "400",
       lineHeight: "1.5",
-      fontSize: "1rem",
+      fontSize: "12px",
       textRendering: "optimizeLegibility",
       _webkitFontSmoothing: "antialiased",
     },

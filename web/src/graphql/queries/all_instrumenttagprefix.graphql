@@ -1,0 +1,23 @@
+query InstrumentTagPrefixes($limit: Int!, $cursor: String) {
+  instrumentTagprefixes(limit: $limit, cursor: $cursor) {
+    hasMore
+    instrumentTagprefixes{
+      id
+      tagprefix
+      measuredvariable{
+      measuredvariableletter
+      measuredvariable
+      }
+      instrumentfunction{
+      instrumentfunctionletter
+      instrumentfunction
+      }
+
+      createdAt
+      updatedAt
+      description
+      note
+      }
+    }
+  }
+

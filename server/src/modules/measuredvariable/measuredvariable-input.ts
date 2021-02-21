@@ -9,9 +9,9 @@ export class MeasuredVariableInput implements Partial<MeasuredVariable> {
   @Field()
   measuredvariableletter: string;
 
-  @Field({ nullable: true })
-  description?: string;
+  @Field()
+  description: string;
 
-  @Field({ nullable: true })
-  note?: string;
+  @Field()
+  note: string;
 }

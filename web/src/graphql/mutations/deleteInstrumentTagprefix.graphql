@@ -1,0 +1,3 @@
+mutation DeleteInstrumentTagprefix($id: Int!) {
+  deleteInstrumenttagprefix(id: $id)
+}

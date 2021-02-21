@@ -1,0 +1,10 @@
+mutation UpdateInstrumentTagprefix($id: Int!,$tagprefix: String!, $instrumentfunctionId: Int!,$measuredvariableId: Int!, $description: String!, $note: String!) {
+  updateInstrumenttagprefix(id: $id,tagprefix: $tagprefix,instrumentfunctionId: $instrumentfunctionId,measuredvariableId:$measuredvariableId ,description: $description, note: $note) {
+    id
+    tagprefix
+    instrumentfunctionId
+    measuredvariableId
+    description
+    note
+  }
+}

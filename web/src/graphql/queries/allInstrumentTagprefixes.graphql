@@ -1,0 +1,8 @@
+query ALLINSTRUMENTTAGPREFIXES{
+  allInstrumentTagprefixes{
+  id
+  tagprefix
+  description
+  note
+  }
+}

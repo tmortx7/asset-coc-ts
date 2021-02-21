@@ -34,7 +34,7 @@ const IndexPage = () => {
             borderColor="#e5e5e5"
             borderWidth="1px"
           >
-            <Flex h="100%" w="100%">
+            <Flex h="100%" w="100%" minWidth="400px">
               <Spacer />
               <NextLink href="/createdepartment">
                 <Link

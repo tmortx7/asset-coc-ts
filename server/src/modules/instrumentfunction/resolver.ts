@@ -29,10 +29,8 @@ class PaginatedInstrumentfunction {
   hasMore: boolean;
 }
 
-
 @Resolver()
 export class InstrumentFunctionResolver {
-
   @Query(() => PaginatedInstrumentfunction)
   async allInstrumentfunctions(
     @Arg("limit", () => Int) limit: number,
@@ -44,7 +42,7 @@ export class InstrumentFunctionResolver {
     const replacements: any[] = [reaLimitPlusOne];
 
     if (cursor) {
-      replacements.push(new Date(parseInt(cursor)));;
+      replacements.push(new Date(parseInt(cursor)));
     }
 
     const allInstrumentfunctions = await getConnection().query(
@@ -64,10 +62,10 @@ export class InstrumentFunctionResolver {
     };
   }
 
-
-
   @Query(() => InstrumentFunction, { nullable: true })
-  instrumentfunction(@Arg("id", () => Int) id: number): Promise<InstrumentFunction | undefined> {
+  instrumentfunction(
+    @Arg("id", () => Int) id: number
+  ): Promise<InstrumentFunction | undefined> {
     return InstrumentFunction.findOne(id);
   }
 
@@ -134,5 +132,10 @@ export class InstrumentFunctionResolver {
   ): Promise<boolean> {
     await InstrumentFunction.delete({ id });
     return true;
+  }
+
+  @Query(() => [InstrumentFunction])
+  async getAllInstrumentfunctions() {
+    return InstrumentFunction.find();
   }
 }

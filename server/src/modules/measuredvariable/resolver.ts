@@ -29,10 +29,8 @@ class PaginatedMeasuredvariable {
   hasMore: boolean;
 }
 
-
 @Resolver()
 export class MeasuredVariableResolver {
-
   @Query(() => PaginatedMeasuredvariable)
   async allMeasuredvariables(
     @Arg("limit", () => Int) limit: number,
@@ -44,7 +42,7 @@ export class MeasuredVariableResolver {
     const replacements: any[] = [reaLimitPlusOne];
 
     if (cursor) {
-      replacements.push(new Date(parseInt(cursor)));;
+      replacements.push(new Date(parseInt(cursor)));
     }
 
     const allMeasuredvariables = await getConnection().query(
@@ -64,10 +62,10 @@ export class MeasuredVariableResolver {
     };
   }
 
-
-
   @Query(() => MeasuredVariable, { nullable: true })
-  measuredvariable(@Arg("id", () => Int) id: number): Promise<MeasuredVariable | undefined> {
+  measuredvariable(
+    @Arg("id", () => Int) id: number
+  ): Promise<MeasuredVariable | undefined> {
     return MeasuredVariable.findOne(id);
   }
 
@@ -134,5 +132,10 @@ export class MeasuredVariableResolver {
   ): Promise<boolean> {
     await MeasuredVariable.delete({ id });
     return true;
+  }
+
+  @Query(() => [MeasuredVariable])
+  async getAllMeasuredvariables() {
+    return MeasuredVariable.find();
   }
 }

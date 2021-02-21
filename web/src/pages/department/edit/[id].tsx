@@ -54,7 +54,7 @@ const EditDepartment = ({}) => {
             note: data.department.note,
           }}
           onSubmit={async (values) => {
-            await updateDepartment({ id: intId, ...values });
+            await updateDepartment({variables: { id: intId, ...values }});
             router.back();
           }}
         >
